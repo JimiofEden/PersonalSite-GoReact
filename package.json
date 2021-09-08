@@ -1,0 +1,24 @@
+{
+  "name": "goback-reactforward",
+  "author": "Adam Hollock",
+  "version": "0.2.0",
+  "description": "Trying to generate a blank template for Go backend and React frontend",
+  "main": "",
+  "scripts": {
+    "start": "npm run frontend & npm run backend",
+    "frontend": "watchify -o backend/public/bundle.js -v -d frontend/main.js",
+    "backend": "cd backend; gin"
+  },
+  "dependencies": {
+    "browserify": "^12.0.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "reactify": "^1.1.1",
+    "watchify": "^3.6.1"
+  },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  }
+}

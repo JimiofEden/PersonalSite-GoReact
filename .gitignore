@@ -10,3 +10,10 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Extras
+node_modules
+.DS_Store
+backend/gin-bin
+backend/public/bundle.js
+npm-debug.log
