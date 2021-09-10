@@ -5,9 +5,9 @@
   "description": "Trying to generate a blank template for Go backend and React frontend",
   "main": "",
   "scripts": {
-    "start": "npm run src/clientApp & npm run src/serverApp",
-    "frontend": "watchify -o src/serverApp/public/bundle.js -v -d src/clientApp/main.js",
-    "backend": "cd backend; gin"
+    "start": "npm run src/clientapp & npm run src/serverapp",
+    "src/clientapp": "watchify -o src/serverapp/public/bundle.js -v -d src/clientapp/main.js",
+    "src/serverapp": "cd backend; gin"
   },
   "dependencies": {
     "browserify": "^12.0.1",

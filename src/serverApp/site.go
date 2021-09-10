@@ -1,11 +1,19 @@
 package main
 
-import "net/http"
+import (
+	"embed"
+	"io/fs"
+	"main/web"
+	"net/http"
+)
+
+var reactContent embed.FS
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./public")))
-	err := http.ListenAndServe(":9876", nil)
-	if (err != null) {
-		panic("Error: " + err.Error())
+	dist, error := fs.Sub(reactContent, "dist")
+	if error != nil {
+		panic("Error: " + error)
 	}
+	var distFs = http.FS(dist)
+	web.Serve(distFS, ":9876")
 }
