@@ -18,6 +18,8 @@ export function Site() {
 			githubLink={"https://github.com/jimiofeden"}
 		/>
 		<Skills/>
-		<Contact/>
+		<Contact
+			contactEmail={"mailto:jimiofeden@gmail.com"}
+		/>
 	</div>;
 }
