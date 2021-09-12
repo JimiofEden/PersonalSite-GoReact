@@ -23,11 +23,13 @@ function Skills(props: any) {
 		<p>For a quick glance, I am familiar with the following technologies:</p>
 		<div className="skills">
 			<div className="skill-category">
+				{/*TODO - These should come from the backend store*/}
 				<h4>Backend</h4>
 				<p>C#</p>
 				<p>.NET</p>
 				<p>Go (This site served by Go!)</p>
 				<p>Node</p>
+				{/*TODO - Link to github PyMeth*/}
 				<p>Python</p>
 				<p>Ruby</p>
 			</div>
@@ -42,11 +44,11 @@ function Skills(props: any) {
 				<h4>Database</h4>
 				<p>SQL Server</p>
 				<p>MySQL</p>
-				<p>MongoDB</p>
 				<p>Oracle</p>
 			</div>
 			<div className="skill-category">
 				<h4>Serverside</h4>
+				<p>Docker</p>
 				<p>Azure</p>
 				<p>IIS</p>
 				<p>Apache</p>
@@ -72,6 +74,7 @@ function Contact(props: any) {
 export function Intro() {
 	return <div className="site-container">
 		<Header/>
+		{/*TODO - Links should come from backend store*/}
 		<AboutMe
 			twitterLink={"https://twitter.com/JimiofEden"}
 		/>
