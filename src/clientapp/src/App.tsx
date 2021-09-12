@@ -1,10 +1,10 @@
 import React from 'react';
-import {Intro} from './components/Intro'
+import {Site} from './components/Site'
 import './App.css';
 
 function App() {
   return (
-    <Intro/>
+    <Site/>
   );
 }
 
