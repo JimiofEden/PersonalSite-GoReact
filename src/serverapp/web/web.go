@@ -28,6 +28,30 @@ func Serve(files http.FileSystem, addr string) {
 		utils.RespondWithJson(rw, models.NewApiResponse("OK", "Successfully Saved!"))
 	}).Methods("POST", "OPTIONS")
 
+	api.HandleFunc("/links", func(rw http.ResponseWriter, r *http.Request) {
+		// TODO - These should come from a graphql request to postgres
+		links := []models.StoredLink {
+			models.NewStoredLink("twitter", "https://twitter.com/JimiofEden"),
+			models.NewStoredLink("resume", "./AH-Resume_0721-linkedin.pdf"),
+			models.NewStoredLink("github", "https://github.com/jimiofeden"),
+			models.NewStoredLink("email", "mailto:jimiofeden@gmail.com"),
+		}
+		utils.RespondWithJson(rw, models.NewApiResponse("OK", links))
+	}).Methods("GET", "OPTIONS")
+
+	api.HandleFunc("/skills", func(rw http.ResponseWriter, r *http.Request) {
+		// TODO - These should come from a graphql request to postgres
+		skills := []models.Skill {
+			models.NewSkill("C#", "Backend", ""),
+			models.NewSkill(".NET", "Backend", ""),
+			models.NewSkill("Go (This site served by Go!)", "Backend", ""),
+			models.NewSkill("Node", "Backend", ""),
+			models.NewSkill("Python", "Backend", ""),
+			models.NewSkill("Ruby", "Backend", ""),
+		}
+		utils.RespondWithJson(rw, models.NewApiResponse("OK", skills))
+	}).Methods("GET", "OPTIONS")
+
 	router.PathPrefix("/").Handler(fs)
 	cors := handlers.AllowedOrigins([]string{"*"})
 

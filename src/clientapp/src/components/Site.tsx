@@ -7,7 +7,8 @@ import Contact from './Contact';
 import './Site.css';
 
 export function Site() {
-	return <div className="site-container">
+	return (
+		<div className="site-container">
 		<Header/>
 		{/*TODO - Links should come from backend store*/}
 		<AboutMe
@@ -21,5 +22,6 @@ export function Site() {
 		<Contact
 			contactEmail={"mailto:jimiofeden@gmail.com"}
 		/>
-	</div>;
+	</div>
+	);
 }
