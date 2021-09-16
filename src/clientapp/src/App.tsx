@@ -1,8 +1,8 @@
 import React from 'react';
-import {Site} from './components/Site'
+import { Site } from './components/Site'
 import './App.css';
 
-function App() {
+const App = () => {
   return (
     <Site/>
   );

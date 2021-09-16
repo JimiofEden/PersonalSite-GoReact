@@ -1,12 +1,12 @@
 import React from 'react';
-import Header from './Header';
-import AboutMe from './AboutMe';
-import Resume from './Resume';
-import Skills from './Skills';
-import Contact from './Contact';
+import { Header } from './Header';
+import { AboutMe } from './AboutMe';
+import { Resume } from './Resume';
+import { Skills } from './Skills';
+import { Contact } from './Contact';
 import './Site.css';
 
-export function Site() {
+export const Site = () => {
 	return (
 		<div className="site-container">
 		<Header/>

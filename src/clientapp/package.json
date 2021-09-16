@@ -40,5 +40,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:9876"
+  "proxy": "http://localhost:9876",
+  "devDependencies": {
+    "axios": "^0.21.4",
+    "react-spinners": "^0.11.0"
+  }
 }

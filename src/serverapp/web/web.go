@@ -42,12 +42,34 @@ func Serve(files http.FileSystem, addr string) {
 	api.HandleFunc("/skills", func(rw http.ResponseWriter, r *http.Request) {
 		// TODO - These should come from a graphql request to postgres
 		skills := []models.Skill {
-			models.NewSkill("C#", "Backend", ""),
-			models.NewSkill(".NET", "Backend", ""),
-			models.NewSkill("Go (This site served by Go!)", "Backend", ""),
-			models.NewSkill("Node", "Backend", ""),
-			models.NewSkill("Python", "Backend", ""),
-			models.NewSkill("Ruby", "Backend", ""),
+
+			models.NewSkill("Go", "Backend", "", "This site is being served by Go!"),
+			models.NewSkill("GraphQL", "Backend", "", "I am using GraphQL to retrieve data for this site!"),
+			models.NewSkill("C#", "Backend", "", ""),
+			models.NewSkill(".NET", "Backend", "", ""),
+			models.NewSkill("Node", "Backend", "", ""),
+			models.NewSkill("Python", "Backend", "", ""),
+			models.NewSkill("Ruby", "Backend", "", ""),
+
+			models.NewSkill("React", "Frontend", "", "This site is being rendered with React!"),
+			models.NewSkill("Angular", "Frontend", "", ""),
+			models.NewSkill("Knockout", "Frontend", "", ""),
+
+			models.NewSkill("Postgres", "Database", "", "All this data is being stored in Postgres!"),
+			models.NewSkill("Graphql", "Database", "", ""),
+			models.NewSkill("SQL Server", "Database", "", ""),
+			models.NewSkill("MySQL", "Database", "", ""),
+
+			models.NewSkill("Docker", "ServerSide", "", ""),
+			models.NewSkill("Azure", "Database", "", ""),
+			models.NewSkill("IIS", "Database", "", ""),
+			models.NewSkill("Apache", "Database", "", ""),
+
+			models.NewSkill("Continuous Integration", "Misc.", "", "Teamcity, Octoput Deploy"),
+			models.NewSkill("Version Control", "Misc.", "", "Git, SVN"),
+			models.NewSkill("Unit Testing", "Misc.", "", "Jest, NUnit"),
+			models.NewSkill("Project Management", "Misc.", "", "Agile, Scrum"),
+			models.NewSkill("Translating Business Needs into Actionable Goals", "Misc.", "", ""),
 		}
 		utils.RespondWithJson(rw, models.NewApiResponse("OK", skills))
 	}).Methods("GET", "OPTIONS")

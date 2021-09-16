@@ -1,46 +1,76 @@
-export default function Skills(props: any) {
-	return <div>
-		<p>For a quick glance, I am familiar with the following technologies:</p>
-		<div className="skills">
-			<div className="skill-category">
-				{/*TODO - These should come from the backend store*/}
-				<h4>Backend</h4>
-				<p>C#</p>
-				<p>.NET</p>
-				<p>Go (This site served by Go!)</p>
-				<p>Node</p>
-				{/*TODO - Link to github PyMeth*/}
-				<p>Python</p>
-				<p>Ruby</p>
-			</div>
-			<div className="skill-category">
-				<h4>Frontend</h4>
-				<p>React (This frontend is being rendered with React!)</p>
-				<p>Typescript (This frontend was built with Typescript!)</p>
-				<p>Angular</p>
-				<p>Knockout</p>
-			</div>
-			<div className="skill-category">
-				<h4>Database</h4>
-				<p>SQL Server</p>
-				<p>MySQL</p>
-				<p>Oracle</p>
-			</div>
-			<div className="skill-category">
-				<h4>Serverside</h4>
-				<p>Docker</p>
-				<p>Azure</p>
-				<p>IIS</p>
-				<p>Apache</p>
-			</div>
-			<div className="skill-category">
-				<h4>Misc. Skills</h4>
-				<p>Continuous Integration (Azure Devops, TeamCity, Octopus Deploy)</p>
-				<p>Version Control (Git, SVN)</p>
-				<p>Unit Testing (Jest, NUnit)</p>
-				<p>Project Managing (Agile, Scrum)</p>
-				<p>Translating Business Requests into Requirements</p>
+import React, {useState, useEffect} from 'react';
+import {Skill} from '../models/skill';
+import {fetchSkills} from '../util/ApiHandler';
+import {PulseLoader} from 'react-spinners'
+
+export const Skills = (props: any) => {
+
+	const [loading, setLoading] = useState<boolean>(true);
+	const [skills, setSkills] = useState<Skill[]>([]);
+
+	useEffect(() => {
+		// TODO - Load in skills here
+		const goGetSkills = () => fetchSkills().then((results: any) => results.data);
+
+		let subscribed = true;
+		setLoading(true);
+
+		goGetSkills().then(
+			(results: any) => {
+				if (subscribed) {
+					console.log(results.data);
+					setLoading(false);
+					setSkills(results.data);
+				}
+			},
+			(err: any) => {
+				if (subscribed) {
+					setLoading(false);
+					console.log(err);
+				}
+			}
+		);
+		return () => {
+			subscribed = false;
+		};
+	}, []);
+
+	const [skillTypes, setSkillTypes] = useState<string[]>([]);
+
+	useEffect(() => {
+		const newSkillTypes = (
+			skills.map((skill: any) => {
+				return skill.skillType;
+			}));
+		setSkillTypes(newSkillTypes.filter((v, i, a) => {return a.indexOf(v) === i}));
+	}, [skills]);
+
+	return (
+		loading
+		? <PulseLoader/>
+		: <div>
+			<p>For a quick glance, I am familiar with the following technologies:</p>
+			<div className="skills">
+			{
+				skillTypes.map((skillType: string, i: number) => {
+					return (
+						<div className="skill-category" key={skillType}>
+						<h4>{skillType}</h4>
+						{
+							skills.filter((skill: Skill) => { return skill.skillType === skillType})
+							.map((skill: Skill, i: number) => {
+								return (
+									<p key={skill.name}>
+										{skill.name}
+									</p>
+								)
+							})
+						}
+						</div>
+					)
+				})
+			}
 			</div>
 		</div>
-	</div>
+	)
 }
