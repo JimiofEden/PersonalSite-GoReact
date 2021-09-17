@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Skill } from '../models/skill';
 import { fetchSkills } from '../util/ApiHandler';
 import { PulseLoader } from 'react-spinners'
+import "./Skills.css";
 
 export const Skills = (props: any) => {
 
@@ -61,7 +62,13 @@ export const Skills = (props: any) => {
 							.map((skill: Skill, i: number) => {
 								return (
 									<p key={skill.name}>
-										{skill.name}
+										{skill.name}{skill.comment !== ""
+											? (skill.link !== ""
+												? <span> - <a href={skill.link} target="_blank" rel="noreferrer">{skill.comment}</a></span>
+												: <span> - {skill.comment}</span>
+												)
+											: ("")
+										}
 									</p>
 								)
 							})

@@ -1,0 +1,7 @@
+.skills {
+	display: flex;
+}
+.skill-category {
+	width: 20%;
+	margin: 0px 1em;
+}

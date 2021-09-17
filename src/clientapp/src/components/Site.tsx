@@ -45,15 +45,15 @@ export const Site = () => {
 		<Header/>
 		<AboutMe
 			// TODO - link name should be in an appsetting somewhere
-			twitterLink={links.filter((x) => {return x.name === "twitter"})[0].url}
+			twitterLink={links.filter((x) => {return x.name === "twitter"})[0]?.url}
 		/>
 		<Resume
-			resumeLink={links.filter((x) => {return x.name === "resume"})[0].url}
-			githubLink={links.filter((x) => {return x.name === "github"})[0].url}
+			resumeLink={links.filter((x) => {return x.name === "resume"})[0]?.url}
+			githubLink={links.filter((x) => {return x.name === "github"})[0]?.url}
 		/>
 		<Skills/>
 		<Contact
-			contactEmail={links.filter((x) => {return x.name === "email"})[0].url}
+			contactEmail={links.filter((x) => {return x.name === "email"})[0]?.url}
 		/>
 	</div>
 	);

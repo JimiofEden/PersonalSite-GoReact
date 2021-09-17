@@ -43,27 +43,27 @@ func Serve(files http.FileSystem, addr string) {
 		// TODO - These should come from a graphql request to postgres
 		skills := []models.Skill {
 
-			models.NewSkill("Go", "Backend", "", "This site is being served by Go!"),
-			models.NewSkill("GraphQL", "Backend", "", "I am using GraphQL to retrieve data for this site!"),
+			models.NewSkill("Go", "Backend", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/serverapp", "This site is being served by Go!"),
+			models.NewSkill("GraphQL", "Backend", "https://github.com/JimiofEden/PersonalSite-GoReact", "This data is being retrieved using GraphQL!"),
 			models.NewSkill("C#", "Backend", "", ""),
 			models.NewSkill(".NET", "Backend", "", ""),
 			models.NewSkill("Node", "Backend", "", ""),
 			models.NewSkill("Python", "Backend", "", ""),
 			models.NewSkill("Ruby", "Backend", "", ""),
 
-			models.NewSkill("React", "Frontend", "", "This site is being rendered with React!"),
+			models.NewSkill("React", "Frontend", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/clientapp", "This site is being rendered with React!"),
 			models.NewSkill("Angular", "Frontend", "", ""),
 			models.NewSkill("Knockout", "Frontend", "", ""),
 
-			models.NewSkill("Postgres", "Database", "", "All this data is being stored in Postgres!"),
+			models.NewSkill("Postgres", "Database", "https://github.com/JimiofEden/PersonalSite-GoReact", "This data is being stored in Postgres!"),
 			models.NewSkill("Graphql", "Database", "", ""),
 			models.NewSkill("SQL Server", "Database", "", ""),
 			models.NewSkill("MySQL", "Database", "", ""),
 
 			models.NewSkill("Docker", "ServerSide", "", ""),
-			models.NewSkill("Azure", "Database", "", ""),
-			models.NewSkill("IIS", "Database", "", ""),
-			models.NewSkill("Apache", "Database", "", ""),
+			models.NewSkill("Azure", "ServerSide", "", ""),
+			models.NewSkill("IIS", "ServerSide", "", ""),
+			models.NewSkill("Apache", "ServerSide", "", ""),
 
 			models.NewSkill("Continuous Integration", "Misc.", "", "Teamcity, Octoput Deploy"),
 			models.NewSkill("Version Control", "Misc.", "", "Git, SVN"),
