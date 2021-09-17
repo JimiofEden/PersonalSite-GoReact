@@ -4,3 +4,7 @@ import axios from 'axios';
 export const fetchSkills = () => {
     return axios.get(`http://localhost:9876/api/skills`);
 }
+
+export const fetchLinks = () => {
+    return axios.get(`http://localhost:9876/api/links`);
+}

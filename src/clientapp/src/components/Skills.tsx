@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {Skill} from '../models/skill';
-import {fetchSkills} from '../util/ApiHandler';
-import {PulseLoader} from 'react-spinners'
+import React, { useState, useEffect } from 'react';
+import { Skill } from '../models/skill';
+import { fetchSkills } from '../util/ApiHandler';
+import { PulseLoader } from 'react-spinners'
 
 export const Skills = (props: any) => {
 
