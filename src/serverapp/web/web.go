@@ -58,7 +58,7 @@ func Serve(files http.FileSystem, addr string) {
 			models.NewSkill("SQL Server", "Database", "", ""),
 			models.NewSkill("MySQL", "Database", "", ""),
 
-			models.NewSkill("Docker", "ServerSide", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/server", "This site is hosted on a docker image!"),
+			models.NewSkill("Docker", "ServerSide", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/server", "This site's host was built with a docker image!"),
 			models.NewSkill("Azure", "ServerSide", "", ""),
 			models.NewSkill("IIS", "ServerSide", "", ""),
 			models.NewSkill("Apache", "ServerSide", "", ""),
