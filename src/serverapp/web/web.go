@@ -18,15 +18,12 @@ func Serve(files http.FileSystem, addr string) {
 
 	// Routes
 	api := router.PathPrefix("/api").Subrouter()
-	api.HandleFunc("/data", func(rw http.ResponseWriter, r *http.Request) {
-		utils.RespondWithJson(rw, models.NewApiResponse("OK", models.NewApiData("Hello, world!")))
-	}).Methods("GET", "OPTIONS")
 
 	api.HandleFunc("/metrics", getMetrics).Methods("GET", "OPTIONS")
 
-	api.HandleFunc("/data", func(rw http.ResponseWriter, r *http.Request) {
-		utils.RespondWithJson(rw, models.NewApiResponse("OK", "Successfully Saved!"))
-	}).Methods("POST", "OPTIONS")
+	api.HandleFunc("/appsettings", func(rw http.ResponseWriter, r *http.Request) {
+		utils.RespondWithJson(rw, models.NewApiResponse("OK", models.NewApiData("This should be a list of appsettings!")))
+	}).Methods("GET", "OPTIONS")
 
 	api.HandleFunc("/links", func(rw http.ResponseWriter, r *http.Request) {
 		// TODO - These should come from a graphql request to postgres
@@ -74,6 +71,7 @@ func Serve(files http.FileSystem, addr string) {
 		utils.RespondWithJson(rw, models.NewApiResponse("OK", skills))
 	}).Methods("GET", "OPTIONS")
 
+	
 	router.PathPrefix("/").Handler(fs)
 	cors := handlers.AllowedOrigins([]string{"*"})
 
