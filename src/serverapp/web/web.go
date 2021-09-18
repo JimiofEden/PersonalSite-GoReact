@@ -52,12 +52,13 @@ func Serve(files http.FileSystem, addr string) {
 			models.NewSkill("Angular", "Frontend", "", ""),
 			models.NewSkill("Knockout", "Frontend", "", ""),
 
-			models.NewSkill("Postgres", "Database", "https://github.com/JimiofEden/PersonalSite-GoReact", "This data is being stored in Postgres!"),
-			models.NewSkill("Graphql", "Database", "", ""),
+			models.NewSkill("Postgres", "Database", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/database", "This data is being stored in Postgres!"),
+			// TODO - Put in specific Graphql references
+			models.NewSkill("Graphql", "Database", "https://github.com/JimiofEden/PersonalSite-GoReact/", "This data is being queried by Graphql!"),
 			models.NewSkill("SQL Server", "Database", "", ""),
 			models.NewSkill("MySQL", "Database", "", ""),
 
-			models.NewSkill("Docker", "ServerSide", "", ""),
+			models.NewSkill("Docker", "ServerSide", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/server", "This site is hosted on a docker image!"),
 			models.NewSkill("Azure", "ServerSide", "", ""),
 			models.NewSkill("IIS", "ServerSide", "", ""),
 			models.NewSkill("Apache", "ServerSide", "", ""),
@@ -71,7 +72,7 @@ func Serve(files http.FileSystem, addr string) {
 		utils.RespondWithJson(rw, models.NewApiResponse("OK", skills))
 	}).Methods("GET", "OPTIONS")
 
-	
+
 	router.PathPrefix("/").Handler(fs)
 	cors := handlers.AllowedOrigins([]string{"*"})
 
