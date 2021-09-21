@@ -1,19 +1,48 @@
--- Table: dbo.Link
-
--- DROP TABLE dbo.Link;
-
-CREATE TABLE IF NOT EXISTS dbo.Link
+-- =============================================
+-- Author:      Adam Hollock
+-- Create date: 2021-09-21
+-- =============================================
+CREATE TEMP TABLE temp_Link
 (
-    Id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    LinkName character(50) COLLATE pg_catalog."default" NOT NULL,
-    Url character(255) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT "PK_Link" PRIMARY KEY (Id)
-)
+    LinkName character(50) NOT NULL,
+    Url CHARACTER(255) NOT NULL,
+    Deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    CreatedBy CHARACTER(255) NOT NULL DEFAULT CURRENT_USER,
+    CreatedDateTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    LastModifiedBy CHARACTER(255) NOT NULL DEFAULT CURRENT_USER,
+    LastModifiedDateTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) 
+ON COMMIT DROP;
 
-TABLESPACE pg_default;
+BEGIN;
 
-ALTER TABLE dbo.Link
-    OWNER to jimi;
+INSERT INTO temp_Link
+(LinkName, Url)
+VALUES
+('twitter', 'https://twitter.com/JimiofEden'),
+('resume', './AH-Resume_0721-linkedin.pdf'),
+('github', 'https://github.com/jimiofeden'),
+('email', 'mailto:jimiofeden@gmail.com')
+;
 
-COMMENT ON TABLE dbo.Link
-    IS 'Creates a table to contain Link';
+INSERT INTO dbo.Link 
+(LinkName, Url
+
+, Deleted, CreatedBy, CreatedDateTime, LastModifiedBy, LastModifiedDateTime)
+select 
+LinkName, Url
+
+, Deleted, CreatedBy, CreatedDateTime, LastModifiedBy, LastModifiedDateTime
+from temp_Link
+ON CONFLICT (LinkName)
+DO
+    UPDATE SET
+    Url = EXCLUDED.Url,
+
+    Deleted = EXCLUDED.Deleted,
+    LastModifiedBy = EXCLUDED.LastModifiedBy,
+    LastModifiedDateTime = EXCLUDED.LastModifiedDateTime
+;
+
+COMMIT
+--ROLLBACK
