@@ -19,3 +19,4 @@ backend/public/bundle.js
 npm-debug.log
 bin
 src/clientapp/package-lock.json
+configuration.*
