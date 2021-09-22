@@ -1,8 +1,0 @@
-{
-	"ServerPort": "9876",
-	"PgUser": "nope",
-	"PgPass": "nope",
-	"PgPort": "nope",
-	"PgHost": "127.0.0.1",
-	"PgDbName": "202109PersonalSite"
-}
