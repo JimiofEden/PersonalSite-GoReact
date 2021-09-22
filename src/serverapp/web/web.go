@@ -11,7 +11,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Serve(files http.FileSystem, addr string) {
+func Serve(files http.FileSystem, configuration models.Configuration) {
 	fs := http.FileServer(files)
 
 	router := mux.NewRouter()
@@ -77,11 +77,12 @@ func Serve(files http.FileSystem, addr string) {
 	cors := handlers.AllowedOrigins([]string{"*"})
 
 	srv := handlers.CombinedLoggingHandler(os.Stdout, router)
+	port := fmt.Sprintf(":%s", configuration.ServerPort)
 	server := &http.Server {
-		Addr: addr,
+		Addr: port,
 		Handler: handlers.CORS(cors)(srv),
 	}
-	fmt.Println("Listening on: ", addr)
+	fmt.Println("Listening on: ", port)
 	err := server.ListenAndServe()
 	fmt.Println(err)
 }
