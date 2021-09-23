@@ -2,7 +2,7 @@
 -- Author:      Adam Hollock
 -- Create date: 2021-09-21
 -- =============================================
-CREATE TEMP TABLE temp_Link
+CREATE TEMP TABLE temp_StoredLink
 (
     LinkName character(50) NOT NULL,
     Url CHARACTER(255) NOT NULL,
@@ -16,7 +16,7 @@ ON COMMIT DROP;
 
 BEGIN;
 
-INSERT INTO temp_Link
+INSERT INTO temp_StoredLink
 (LinkName, Url)
 VALUES
 ('twitter', 'https://twitter.com/JimiofEden'),
@@ -25,7 +25,7 @@ VALUES
 ('email', 'mailto:jimiofeden@gmail.com')
 ;
 
-INSERT INTO dbo.Link 
+INSERT INTO dbo.StoredLink 
 (LinkName, Url
 
 , Deleted, CreatedBy, CreatedDateTime, LastModifiedBy, LastModifiedDateTime)
@@ -33,7 +33,7 @@ select
 LinkName, Url
 
 , Deleted, CreatedBy, CreatedDateTime, LastModifiedBy, LastModifiedDateTime
-from temp_Link
+from temp_StoredLink
 ON CONFLICT (LinkName)
 DO
     UPDATE SET

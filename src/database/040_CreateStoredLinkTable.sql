@@ -1,8 +1,8 @@
--- Table: dbo.Link
+-- Table: dbo.StoredLink
 
--- DROP TABLE dbo.Link;
+-- DROP TABLE dbo.StoredLink;
 
-CREATE TABLE IF NOT EXISTS dbo.Link
+CREATE TABLE IF NOT EXISTS dbo.StoredLink
 (
     Id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     LinkName character(50) COLLATE pg_catalog."default" NOT NULL,
@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS dbo.Link
 
 TABLESPACE pg_default;
 
-ALTER TABLE dbo.Link
+ALTER TABLE dbo.StoredLink
     OWNER to jimi;
 
-COMMENT ON TABLE dbo.Link
-    IS 'Creates a table to contain Link';
+COMMENT ON TABLE dbo.StoredLink
+    IS 'Creates a table to contain StoredLinks';
