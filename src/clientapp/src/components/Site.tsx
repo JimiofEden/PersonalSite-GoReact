@@ -44,7 +44,6 @@ export const Site = () => {
 		<div className="site-container">
 		<Header/>
 		<AboutMe
-			// TODO - link name should be in an appsetting somewhere
 			twitterLink={links.filter((x) => {return x.name === "twitter"})[0]?.url}
 		/>
 		<Resume

@@ -1,6 +1,6 @@
 export class Skill {
-	name: string = "";
+	skillName: string = "";
 	skillType: string = "";
-	link: string = "";
+	url: string = "";
 	comment: string = "";
 }

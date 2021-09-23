@@ -2,17 +2,17 @@ package models
 
 type Skill struct {
 	Id int `json:"id"`
-	Name string `json:"name"`
+	SkillName string `json:"skillName"`
 	SkillTypeId int `json:"skillType"`
-	Link string `json:"link"`
+	Url string `json:"url"`
 	Comment string `json:"comment"`
 }
 
-func NewSkill(name string, skillTypeId int, link string, comment string) Skill {
+func NewSkill(skillName string, skillTypeId int, url string, comment string) Skill {
 	return Skill {
-		Name: name,
+		SkillName: skillName,
 		SkillTypeId: skillTypeId,
-		Link: link,
+		Url: url,
 		Comment: comment,
 	}
 }

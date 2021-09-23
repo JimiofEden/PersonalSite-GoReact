@@ -15,8 +15,9 @@ This is a first attempt to create a Go backend with a React front end, that I ca
 - ~~Set up postgres~~
 - ~~Create schame, tables, and populate tables in postgres~~
 - ~~Set up separate environment settings with golang~~
-- Pull DB data into backend to replace hard coded mock data
-- Use some sort of ORM to pull info (hoping to give graphql a try)
+- ~~Pull DB data into backend to replace hard coded mock data~~
+- ~~Use some sort of ORM to pull info (hoping to give graphql a try)~~
+- Clean up the graphql methods, they don't belong in web tbh
 - Maaaayybbbeeee set up some sort of caching mechanism (would be worthwhile to give redis a crack)
 - Organize my Go API/controllers
 - Then I need to shove all of this onto a container(docker) initialization script where I can just build it at will

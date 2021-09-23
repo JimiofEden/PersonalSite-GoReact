@@ -61,10 +61,10 @@ export const Skills = (props: any) => {
 							skills.filter((skill: Skill) => { return skill.skillType === skillType})
 							.map((skill: Skill, i: number) => {
 								return (
-									<p key={skill.name}>
-										{skill.name}{skill.comment !== ""
-											? (skill.link !== ""
-												? <span> - <a href={skill.link} target="_blank" rel="noreferrer">{skill.comment}</a></span>
+									<p key={skill.skillName}>
+										{skill.skillName}{skill.comment !== ""
+											? (skill.url !== ""
+												? <span> - <a href={skill.url} target="_blank" rel="noreferrer">{skill.comment}</a></span>
 												: <span> - {skill.comment}</span>
 												)
 											: ("")

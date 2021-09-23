@@ -2,7 +2,7 @@ package models
 
 type SkillType struct {
 	Id int `json:"id"`
-	SkillTypeId int `json:"skillTypeName"`
+	SkillTypeId int `json:"skillTypeId"`
 	SkillTypeName string `json:"skillTypeName"`
 }
 
