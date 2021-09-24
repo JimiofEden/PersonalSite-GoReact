@@ -33,10 +33,6 @@ func Serve(files http.FileSystem, configuration models.Configuration) {
 	api.HandleFunc("/links", func(rw http.ResponseWriter, r *http.Request) {
 		// TODO - These should come from a graphql request to postgres
 		links := []models.StoredLink {
-			// models.NewStoredLink("twitter", "https://twitter.com/JimiofEden"),
-			// models.NewStoredLink("resume", "./AH-Resume_0721-linkedin.pdf"),
-			// models.NewStoredLink("github", "https://github.com/jimiofeden"),
-			// models.NewStoredLink("email", "mailto:jimiofeden@gmail.com"),
 		}
 		utils.RespondWithJson(rw, models.NewApiResponse("OK", links))
 	}).Methods("GET", "OPTIONS")
@@ -45,41 +41,13 @@ func Serve(files http.FileSystem, configuration models.Configuration) {
 		// TODO - These should come from a graphql request to postgres
 		skills := []models.Skill {
 
-			// models.NewSkill("Go", "Backend", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/serverapp", "This site is being served by Go!"),
-			// models.NewSkill("GraphQL", "Backend", "https://github.com/JimiofEden/PersonalSite-GoReact", "This data is being retrieved using GraphQL!"),
-			// models.NewSkill("C#", "Backend", "", ""),
-			// models.NewSkill(".NET", "Backend", "", ""),
-			// models.NewSkill("Node", "Backend", "", ""),
-			// models.NewSkill("Python", "Backend", "", ""),
-			// models.NewSkill("Ruby", "Backend", "", ""),
-
-			// models.NewSkill("React", "Frontend", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/clientapp", "This site is being rendered with React!"),
-			// models.NewSkill("Angular", "Frontend", "", ""),
-			// models.NewSkill("Knockout", "Frontend", "", ""),
-
-			// models.NewSkill("Postgres", "Database", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/database", "This data is being stored in Postgres!"),
-			// // TODO - Put in specific Graphql references
-			// models.NewSkill("Graphql", "Database", "https://github.com/JimiofEden/PersonalSite-GoReact/", "This data is being queried by Graphql!"),
-			// models.NewSkill("SQL Server", "Database", "", ""),
-			// models.NewSkill("MySQL", "Database", "", ""),
-
-			// models.NewSkill("Docker", "ServerSide", "https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/server", "This site's host was built with a docker image!"),
-			// models.NewSkill("Azure", "ServerSide", "", ""),
-			// models.NewSkill("IIS", "ServerSide", "", ""),
-			// models.NewSkill("Apache", "ServerSide", "", ""),
-
-			// models.NewSkill("Continuous Integration", "Misc.", "", "Teamcity, Octoput Deploy"),
-			// models.NewSkill("Version Control", "Misc.", "", "Git, SVN"),
-			// models.NewSkill("Unit Testing", "Misc.", "", "Jest, NUnit"),
-			// models.NewSkill("Project Management", "Misc.", "", "Agile, Scrum"),
-			// models.NewSkill("Translating Business Needs into Actionable Goals", "Misc.", "", ""),
 		}
 		utils.RespondWithJson(rw, models.NewApiResponse("OK", skills))
 	}).Methods("GET", "OPTIONS")
 
 	h := getGraphqlHandler(configuration)
 
-	api.Handle("/graphql", h).Methods("GET", "POST")
+	api.Handle("/data", h).Methods("POST")
 
 	router.PathPrefix("/").Handler(fs)
 	cors := handlers.AllowedOrigins([]string{"*"})
