@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Skill } from '../models/skill';
+import { SkillType } from '../models/skillType';
 import { fetchSkills } from '../util/ApiHandler';
 import { PulseLoader } from 'react-spinners'
 import "./Skills.css";
@@ -19,15 +20,15 @@ export const Skills = (props: any) => {
 		goGetSkills().then(
 			(results: any) => {
 				if (subscribed) {
-					console.log(results.data);
+					//console.log(results.data);
 					setLoading(false);
-					setSkills(results.data);
+					setSkills(results.data.skills);
 				}
 			},
 			(err: any) => {
 				if (subscribed) {
 					setLoading(false);
-					console.log(err);
+					//console.log(err);
 				}
 			}
 		);
@@ -36,14 +37,21 @@ export const Skills = (props: any) => {
 		};
 	}, []);
 
-	const [skillTypes, setSkillTypes] = useState<string[]>([]);
+	const [skillTypes, setSkillTypes] = useState<SkillType[]>([]);
 
 	useEffect(() => {
 		const newSkillTypes = (
-			skills.map((skill: any) => {
+			skills.map((skill: Skill) => {
 				return skill.skillType;
 			}));
-		setSkillTypes(newSkillTypes.filter((v, i, a) => {return a.indexOf(v) === i}));
+		var uniqueSkillTypes = [];
+		for(var i = 0; i < skills.length; i++){
+			if (uniqueSkillTypes.filter((x) => {return x.skillTypeName === skills[i].skillType.skillTypeName}).length == 0) {
+				uniqueSkillTypes.push(skills[i].skillType);
+			}
+
+		}
+		setSkillTypes(uniqueSkillTypes);
 	}, [skills]);
 
 	return (
@@ -53,17 +61,21 @@ export const Skills = (props: any) => {
 			<p>For a quick glance, I am familiar with the following technologies:</p>
 			<div className="skills">
 			{
-				skillTypes.map((skillType: string, i: number) => {
+				skillTypes
+				.sort((a, b) => {return a.sequence - b.sequence})
+				.map((skillType: SkillType, i: number) => {
 					return (
-						<div className="skill-category" key={skillType}>
-						<h4>{skillType}</h4>
+						<div className="skill-category" key={i}>
+						<h4>{skillType.skillTypeName}</h4>
 						{
-							skills.filter((skill: Skill) => { return skill.skillType === skillType})
-							.map((skill: Skill, i: number) => {
+							skills
+							.sort((a, b) => {return a.sequence - b.sequence})
+							.filter((skill: Skill) => { return skill.skillType.skillTypeName === skillType.skillTypeName})
+							.map((skill: Skill, j: number) => {
 								return (
-									<p key={skill.skillName}>
-										{skill.skillName}{skill.comment !== ""
-											? (skill.url !== ""
+									<p key={j}>
+										{skill.skillName}{skill.comment.trim() !== ""
+											? (skill.url.trim() !== ""
 												? <span> - <a href={skill.url} target="_blank" rel="noreferrer">{skill.comment}</a></span>
 												: <span> - {skill.comment}</span>
 												)

@@ -6,6 +6,7 @@ CREATE TEMP TABLE temp_SkillType
 (
     SkillTypeId INTEGER NOT NULL,
     SkillTypeName CHARACTER(50) NOT NULL,
+    Sequence INTEGER NOT NULL,
     Deleted BOOLEAN NOT NULL DEFAULT FALSE,
     CreatedBy CHARACTER(255) NOT NULL DEFAULT CURRENT_USER,
     CreatedDateTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -17,13 +18,13 @@ ON COMMIT DROP;
 BEGIN;
 
 INSERT INTO temp_SkillType
-(SkillTypeId, SkillTypeName)
+(SkillTypeId, SkillTypeName, Sequence)
 VALUES
-(1, 'Backend'),
-(2, 'Frontend'),
-(3, 'Database'),
-(4, 'Server'),
-(5, 'Misc.');
+(1, 'Backend', 1),
+(2, 'Frontend', 2),
+(3, 'Database', 3),
+(4, 'Server', 4),
+(5, 'Misc.', 5);
 
 
 
@@ -50,11 +51,11 @@ VALUES
 -- --DELETE;
 
 INSERT INTO dbo.SkillType 
-(SkillTypeId, SkillTypeName
+(SkillTypeId, SkillTypeName, Sequence
 
 , Deleted, CreatedBy, CreatedDateTime, LastModifiedBy, LastModifiedDateTime)
 select 
-SkillTypeId, SkillTypeName
+SkillTypeId, SkillTypeName, Sequence
 
 , Deleted, CreatedBy, CreatedDateTime, LastModifiedBy, LastModifiedDateTime
 from temp_SkillType
@@ -62,6 +63,7 @@ ON CONFLICT (SkillTypeId)
 DO
     UPDATE SET
     SkillTypeName = EXCLUDED.SkillTypeName,
+    Sequence = EXCLUDED.Sequence,
 
     Deleted = EXCLUDED.Deleted,
     LastModifiedBy = EXCLUDED.LastModifiedBy,

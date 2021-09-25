@@ -125,27 +125,27 @@ WITH c (SkillTypeName) as (
 INSERT INTO temp_Skill
 (SkillName, SkillTypeId, Url, Comment, Sequence)
 select 
-'Docker', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/server', 'This site''s host was built with a docker image!', 1
+'Continuous Integration', SkillTypeId, '', 'Teamcity, Octopus Deploy', 1
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'AWS', SkillTypeId, '', 'This site is being hosted by an AWS instance!', 2
+'Version Control', SkillTypeId, '', 'Git, SVN', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Azure', SkillTypeId, '', '', 3
+'Unit Testing', SkillTypeId, '', 'Jest, NUnit', 3
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'IIS', SkillTypeId, '', '', 4
+'Project Management', SkillTypeId, '', '', 4
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Apache', SkillTypeId, '', '', 5
+'Communicating with Business Users', SkillTypeId, '', '', 5
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName;
 

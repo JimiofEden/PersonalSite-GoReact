@@ -17,6 +17,15 @@ import (
 )
 
 func Serve(files http.FileSystem, configuration models.Configuration) {
+
+	dbinfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		configuration.PgHost, configuration.PgPort, configuration.PgUser, configuration.PgPass, configuration.PgDbName)
+	fmt.Println(dbinfo);
+	db, err := sql.Open("postgres", dbinfo)
+	checkErr(err)
+
+	defer db.Close()
+
 	fs := http.FileServer(files)
 
 	router := mux.NewRouter()
@@ -45,21 +54,23 @@ func Serve(files http.FileSystem, configuration models.Configuration) {
 		utils.RespondWithJson(rw, models.NewApiResponse("OK", skills))
 	}).Methods("GET", "OPTIONS")
 
-	h := getGraphqlHandler(configuration)
+	h := getGraphqlHandler(db, err)
 
-	api.Handle("/data", h).Methods("POST")
+	api.Handle("/data", h).Methods("POST", "OPTIONS")
 
 	router.PathPrefix("/").Handler(fs)
+	header := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	methods := handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS"})
 	cors := handlers.AllowedOrigins([]string{"*"})
 
 	srv := handlers.CombinedLoggingHandler(os.Stdout, router)
 	port := fmt.Sprintf(":%s", configuration.ServerPort)
 	server := &http.Server {
 		Addr: port,
-		Handler: handlers.CORS(cors)(srv),
+		Handler: handlers.CORS(header, methods, cors)(srv),
 	}
 	fmt.Println("Listening on: ", port)
-	err := server.ListenAndServe()
+	err = server.ListenAndServe()
 	fmt.Println(err)
 }
 
@@ -73,12 +84,7 @@ func checkErr(err error) {
 	}
 }
 
-func getGraphqlHandler(configuration models.Configuration) http.Handler {
-	dbinfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		configuration.PgHost, configuration.PgPort, configuration.PgUser, configuration.PgPass, configuration.PgDbName)
-	fmt.Println(dbinfo);
-	db, err := sql.Open("postgres", dbinfo)
-	checkErr(err)
+func getGraphqlHandler(db *sql.DB, err error) http.Handler {
 
 	gqlSkillType := graphql.NewObject(graphql.ObjectConfig{
 		Name:        "SkillType",
@@ -112,6 +118,17 @@ func getGraphqlHandler(configuration models.Configuration) http.Handler {
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					if skillType, ok := p.Source.(*models.SkillType); ok {
 						return skillType.SkillTypeName, nil
+					}
+
+					return nil, nil
+				},
+			},
+			"sequence": 	&graphql.Field{
+				Type:        graphql.NewNonNull(graphql.Int),
+				Description: "The sequence order of the skill type.",
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					if skillType, ok := p.Source.(*models.SkillType); ok {
+						return skillType.Sequence, nil
 					}
 
 					return nil, nil
@@ -162,7 +179,7 @@ func getGraphqlHandler(configuration models.Configuration) http.Handler {
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					if skill, ok := p.Source.(*models.Skill); ok {
 						skillType := &models.SkillType{}
-						err = db.QueryRow("select id, SkillTypeId, SkillTypeName from dbo.SkillType where SkillTypeId = $1", skill.SkillTypeId).Scan(&skillType.Id, &skillType.SkillTypeId, &skillType.SkillTypeName)
+						err = db.QueryRow("select id, SkillTypeId, SkillTypeName, Sequence from dbo.SkillType where SkillTypeId = $1", skill.SkillTypeId).Scan(&skillType.Id, &skillType.SkillTypeId, &skillType.SkillTypeName, &skillType.Sequence)
 						checkErr(err)
 
 						return skillType, nil
@@ -188,6 +205,17 @@ func getGraphqlHandler(configuration models.Configuration) http.Handler {
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					if skill, ok := p.Source.(*models.Skill); ok {
 						return skill.Comment, nil
+					}
+
+					return nil, nil
+				},
+			},
+			"sequence": &graphql.Field{
+				Type:        graphql.NewNonNull(graphql.Int),
+				Description: "The sequence order for the skill.",
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					if skill, ok := p.Source.(*models.Skill); ok {
+						return skill.Sequence, nil
 					}
 
 					return nil, nil
@@ -252,7 +280,7 @@ func getGraphqlHandler(configuration models.Configuration) http.Handler {
 					id, _ := params.Args["id"].(int)
 
 					skillType := &models.SkillType{}
-					err = db.QueryRow("select Id, SkillTypeId, SkillTypeName from dbo.SkillType where Id = $1", id).Scan(&skillType.Id, &skillType.SkillTypeId, &skillType.SkillTypeName)
+					err = db.QueryRow("select Id, SkillTypeId, SkillTypeName, Sequence from dbo.SkillType where Id = $1", id).Scan(&skillType.Id, &skillType.SkillTypeId, &skillType.SkillTypeName, &skillType.Sequence)
 					checkErr(err)
 
 					return skillType, nil
@@ -262,14 +290,14 @@ func getGraphqlHandler(configuration models.Configuration) http.Handler {
 				Type:        graphql.NewList(gqlSkillType),
 				Description: "List of skill types.",
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					rows, err := db.Query("SELECT Id, SkillTypeId, SkillTypeName FROM dbo.SkillType")
+					rows, err := db.Query("SELECT Id, SkillTypeId, SkillTypeName, Sequence FROM dbo.SkillType")
 					checkErr(err)
 					var skillTypes []*models.SkillType
 
 					for rows.Next() {
 						skillType := &models.SkillType{}
 
-						err = rows.Scan(&skillType.Id, &skillType.SkillTypeId, &skillType.SkillTypeName)
+						err = rows.Scan(&skillType.Id, &skillType.SkillTypeId, &skillType.SkillTypeName, &skillType.Sequence)
 						checkErr(err)
 						skillTypes = append(skillTypes, skillType)
 					}
@@ -289,7 +317,7 @@ func getGraphqlHandler(configuration models.Configuration) http.Handler {
 					id, _ := params.Args["id"].(int)
 
 					skill := &models.Skill{}
-					err = db.QueryRow("select Id, SkillName, SkillTypeId, Url, Comment from dbo.Skill where Id = $1", id).Scan(&skill.Id, &skill.SkillName, &skill.SkillTypeId, &skill.Url, &skill.Comment)
+					err = db.QueryRow("select Id, SkillName, SkillTypeId, Url, Comment, Sequence from dbo.Skill where Id = $1", id).Scan(&skill.Id, &skill.SkillName, &skill.SkillTypeId, &skill.Url, &skill.Comment, &skill.Sequence)
 					checkErr(err)
 
 					return skill, nil
@@ -299,14 +327,14 @@ func getGraphqlHandler(configuration models.Configuration) http.Handler {
 				Type:        graphql.NewList(gqlSkill),
 				Description: "List of skill types.",
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					rows, err := db.Query("SELECT Id, SkillName, SkillTypeId, Url, Comment FROM dbo.Skill")
+					rows, err := db.Query("SELECT Id, SkillName, SkillTypeId, Url, Comment, Sequence FROM dbo.Skill")
 					checkErr(err)
 					var skills []*models.Skill
 
 					for rows.Next() {
 						skill := &models.Skill{}
 
-						err = rows.Scan(&skill.Id, &skill.SkillName, &skill.SkillTypeId, &skill.Url, &skill.Comment)
+						err = rows.Scan(&skill.Id, &skill.SkillName, &skill.SkillTypeId, &skill.Url, &skill.Comment, &skill.Sequence)
 						checkErr(err)
 						skills = append(skills, skill)
 					}
