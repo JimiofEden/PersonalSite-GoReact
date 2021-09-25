@@ -42,7 +42,13 @@ union
 select 
 'Python', SkillTypeId, '', '', 4
 from dbo.SkillType st, c
-where st.SkillTypeName = c.SkillTypeName;
+where st.SkillTypeName = c.SkillTypeName
+union
+select 
+'Others', SkillTypeId, 'https://github.com/JimiofEden?tab=repositories', 'Ruby, PHP, MATLAB', 5
+from dbo.SkillType st, c
+where st.SkillTypeName = c.SkillTypeName
+;
 
 WITH c (SkillTypeName) as (
    values ('Frontend')
@@ -55,14 +61,20 @@ from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Angular', SkillTypeId, '', '', 2
+'Sass/SCSS, Less, CSS', SkillTypeId, '', '', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Knockout', SkillTypeId, '', '', 3
+'Angular', SkillTypeId, '', '', 3
 from dbo.SkillType st, c
-where st.SkillTypeName = c.SkillTypeName;
+where st.SkillTypeName = c.SkillTypeName
+union
+select 
+'Knockout', SkillTypeId, '', '', 4
+from dbo.SkillType st, c
+where st.SkillTypeName = c.SkillTypeName
+;
 
 WITH c (SkillTypeName) as (
    values ('Database')
@@ -70,12 +82,12 @@ WITH c (SkillTypeName) as (
 INSERT INTO temp_Skill
 (SkillName, SkillTypeId, Url, Comment, Sequence)
 select 
-'Postgres', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/clientapp', 'This data is being stored in Postgres!', 1
+'Postgres', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/database', 'This data is being stored in Postgres!', 1
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Graphql', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/"', 'This data is being queried by Graphql', 2
+'Graphql', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/clientapp/util/queries', 'This data is being queried by Graphql', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
@@ -87,7 +99,8 @@ union
 select 
 'MySQL', SkillTypeId, '', '', 4
 from dbo.SkillType st, c
-where st.SkillTypeName = c.SkillTypeName;
+where st.SkillTypeName = c.SkillTypeName
+;
 
 WITH c (SkillTypeName) as (
    values ('Server')
@@ -117,7 +130,8 @@ union
 select 
 'Apache', SkillTypeId, '', '', 5
 from dbo.SkillType st, c
-where st.SkillTypeName = c.SkillTypeName;
+where st.SkillTypeName = c.SkillTypeName
+;
 
 WITH c (SkillTypeName) as (
    values ('Misc.')
@@ -130,7 +144,7 @@ from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Version Control', SkillTypeId, '', 'Git, SVN', 2
+'Version Control', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact', 'Git (also SVN)', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
@@ -143,12 +157,7 @@ select
 'Project Management', SkillTypeId, '', '', 4
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
-union
-select 
-'Communicating with Business Users', SkillTypeId, '', '', 5
-from dbo.SkillType st, c
-where st.SkillTypeName = c.SkillTypeName;
-
+;
 
 
 INSERT INTO dbo.Skill 

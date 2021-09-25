@@ -20,7 +20,6 @@ export const Skills = (props: any) => {
 		goGetSkills().then(
 			(results: any) => {
 				if (subscribed) {
-					//console.log(results.data);
 					setLoading(false);
 					setSkills(results.data.skills);
 				}
@@ -28,7 +27,6 @@ export const Skills = (props: any) => {
 			(err: any) => {
 				if (subscribed) {
 					setLoading(false);
-					//console.log(err);
 				}
 			}
 		);
@@ -58,7 +56,7 @@ export const Skills = (props: any) => {
 		loading
 		? <PulseLoader/>
 		: <div>
-			<p>For a quick glance, I am familiar with the following technologies:</p>
+			<p>For a quick glance, I am proficient in the following technologies:</p>
 			<div className="skills">
 			{
 				skillTypes

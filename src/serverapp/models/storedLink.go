@@ -2,13 +2,13 @@ package models
 
 type StoredLink struct {
 	Id int `json:"id"`
-	Name string `json:"name"`
+	LinkName string `json:"linkName"`
 	Url string `json:"url"`
 }
 
-func NewStoredLink(name string, url string) StoredLink {
+func NewStoredLink(linkName string, url string) StoredLink {
 	return StoredLink {
-		Name: name,
+		LinkName: linkName,
 		Url: url,
 	}
 }

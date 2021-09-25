@@ -1,4 +1,4 @@
 export class StoredLink {
-	name: string = "";
+	linkName: string = "";
 	url: string = "";
 }

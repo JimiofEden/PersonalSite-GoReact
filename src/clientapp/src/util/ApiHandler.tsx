@@ -1,57 +1,35 @@
 import axios from 'axios';
+import { loader } from 'graphql.macro';
+import { print } from 'graphql/language/printer';
+
 
 // TODO - URLs should be defined somewhere in an app setting
 export const fetchSkills = () => {
+    const queryGql = loader('./queries/skills.gql');
+    const query = print(queryGql)
     return axios.post(
         `http://localhost:9876/api/data`, 
-        {
-            query: `
-                query {
-                    skills {
-                        id
-                        skillName
-                        skillType {
-                            id
-                            skillTypeId
-                            skillTypeName
-                            sequence
-                        }
-                        url
-                        comment
-                        sequence
-                    }
-                }
-            `
-        }
-        , {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-    });
+        { query: query },
+        { headers: { 'Content-Type': 'application/json' } }
+    );
 }
 
 export const fetchSkillTypes = () => {
+    const queryGql = loader('./queries/skillTypes.gql');
+    const query = print(queryGql)
     return axios.post(
         `http://localhost:9876/api/data`, 
-        {
-            query: `
-                query {
-                    skillTypes {
-                        id
-                        skillTypeId
-                        skillTypeName
-                        sequence
-                    }
-                }
-            `
-        }
-        , {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-    });
+        { query: query },
+        { headers: { 'Content-Type': 'application/json' } }
+    );
 }
 
 export const fetchLinks = () => {
-    return axios.get(`http://localhost:9876/api/links`);
+    const queryGql = loader('./queries/storedLinks.gql');
+    const query = print(queryGql)
+    return axios.post(
+        `http://localhost:9876/api/data`, 
+        { query: query },
+        { headers: { 'Content-Type': 'application/json' } }
+    );
 }

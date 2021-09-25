@@ -23,15 +23,13 @@ export const Site = () => {
 		goGetLinks().then(
 			(results: any) => {
 				if (subscribed) {
-					console.log(results.data);
 					setLoading(false);
-					setLinks(results.data);
+					setLinks(results.data.storedLinks);
 				}
 			},
 			(err: any) => {
 				if (subscribed) {
 					setLoading(false);
-					console.log(err);
 				}
 			}
 		);
@@ -44,15 +42,15 @@ export const Site = () => {
 		<div className="site-container">
 		<Header/>
 		<AboutMe
-			twitterLink={links.filter((x) => {return x.name === "twitter"})[0]?.url}
+			twitterLink={links.filter((x) => {return x.linkName.trim() === "twitter"})[0]?.url}
 		/>
 		<Resume
-			resumeLink={links.filter((x) => {return x.name === "resume"})[0]?.url}
-			githubLink={links.filter((x) => {return x.name === "github"})[0]?.url}
+			resumeLink={links.filter((x) => {return x.linkName.trim() === "resume"})[0]?.url}
+			githubLink={links.filter((x) => {return x.linkName.trim() === "github"})[0]?.url}
 		/>
 		<Skills/>
 		<Contact
-			contactEmail={links.filter((x) => {return x.name === "email"})[0]?.url}
+			contactEmail={links.filter((x) => {return x.linkName.trim() === "email"})[0]?.url}
 		/>
 	</div>
 	);

@@ -1,0 +1,7 @@
+query {
+    storedLinks {
+        id
+        linkName
+        url
+    }
+}

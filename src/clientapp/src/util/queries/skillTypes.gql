@@ -1,0 +1,8 @@
+query {
+    skillTypes {
+        id
+        skillTypeId
+        skillTypeName
+        sequence
+    }
+}
