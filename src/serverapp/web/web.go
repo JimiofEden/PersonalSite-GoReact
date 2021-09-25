@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"os"
 	"net/http"
+	"net/http/httptest"
 	"database/sql"
+	"time"
 
 	"main/models"
 	"main/utils"
@@ -12,6 +14,7 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/go-redis/redis"
 )
 
 func Serve(files http.FileSystem, configuration models.Configuration) {
@@ -26,6 +29,13 @@ func Serve(files http.FileSystem, configuration models.Configuration) {
 	fs := http.FileServer(files)
 
 	router := mux.NewRouter()
+
+	rCache := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		DB:       0,
+	})
+
+	router.Use(cacheMiddleware)
 
 	// Routes
 	api := router.PathPrefix("/api").Subrouter()
@@ -56,6 +66,7 @@ func Serve(files http.FileSystem, configuration models.Configuration) {
 	api.Handle("/data", graphqlHandler).Methods("POST", "OPTIONS")
 
 	router.PathPrefix("/").Handler(fs)
+
 	header := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS"})
 	cors := handlers.AllowedOrigins([]string{"*"})
@@ -76,4 +87,29 @@ func getMetrics(rw http.ResponseWriter, r *http.Request) {
 }
 
 
+func cacheMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			next.ServeHTTP(w, r)
+			return
+		}
+		fmt.Println(r.RequestURI)
+		content, err := rCache.Get(r.RequestURI).Result()
+		if err != nil {
+			rr := httptest.NewRecorder()
+			next.ServeHTTP(rr, r)
+			content = rr.Body.String()
+			fmt.Println(content)
 
+			err = rCache.Set(r.RequestURI, content, 10*time.Minute).Err()
+			if err != nil {
+				utils.RepondWithError(w, http.StatusInternalServerError, models.NewApiResponse("OK",err.Error()))
+			}
+			utils.RespondWithJson(w, models.NewApiResponse("OK",content))
+			return
+		}else {
+			utils.RespondWithJson(w, models.NewApiResponse("OK",content))
+			return
+		}
+	})
+}
