@@ -5,18 +5,15 @@ import (
 	"io/fs"
 	"net/http"
 
-	"main/web"
 	"main/config"
+	"main/web"
 )
 
 var reactContent embed.FS
 
-type Cache struct {
-	Cache  *redis.Client
-}
 
 func main() {
-	c = Cache{}
+	a := web.App{}
 
 	// Get Configuration file settings
 	config := config.GetConfig()
@@ -29,5 +26,5 @@ func main() {
 	var binFS = http.FS(bin)
 
 	// Run the server
-	c.web.Serve(binFS, config)
+	a.Serve(binFS, config)
 }
