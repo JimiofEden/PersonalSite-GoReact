@@ -87,7 +87,7 @@ from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Graphql', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/clientapp/util/queries', 'This data is being queried by Graphql', 2
+'Graphql', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/clientapp/src/util/queries', 'This data is being queried by Graphql', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
