@@ -8,7 +8,7 @@ This is a first attempt to create a Go backend with a React front end, that I ca
 - ~~Set up new Git repo for personal site~~
 - ~~Build React Frontend with mock data~~
 - ~~Build Go Server~~
-- ~~Implement an API structure in Backend
+- ~~Implement an API structure in Backend~~
 - ~~Set up Backend with hard coded mock data~~
 - ~~Pull mock data from backend into frontend dynamically~~
 - ~~Switch to linux environment~~
