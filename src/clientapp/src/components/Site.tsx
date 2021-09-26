@@ -24,7 +24,7 @@ export const Site = () => {
 			(results: any) => {
 				if (subscribed) {
 					setLoading(false);
-					setLinks(results.data.storedLinks);
+					setLinks(JSON.parse(results.data).data.storedLinks);
 				}
 			},
 			(err: any) => {

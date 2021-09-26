@@ -7,6 +7,11 @@ import (
 	"net/http/httptest"
 	"database/sql"
 	"time"
+	"io"
+	"io/ioutil"
+	"strings"
+	"encoding/json"
+	"bytes"
 
 	"main/models"
 	"main/utils"
@@ -59,7 +64,7 @@ func (a *App) Serve(files http.FileSystem, configuration models.Configuration) {
 
 	// Server
 	srv := handlers.CombinedLoggingHandler(os.Stdout, a.Router)
-	port := fmt.Sprintf(":%s", configuration.ServerPort)
+	//port := fmt.Sprintf(":%s", configuration.ServerPort)
 	server := &http.Server {
 		Addr: port,
 		Handler: handlers.CORS(header, methods, cors)(srv),
@@ -70,21 +75,31 @@ func (a *App) Serve(files http.FileSystem, configuration models.Configuration) {
 
 func (a *App) cacheMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != "GET" {
+		if r.Method != "GET" && r.Method != "POST"{
 			next.ServeHTTP(w, r)
 			return
 		}
-		fmt.Println(r.RequestURI)
 
 		// Update with POST request for proper caching
-		content, err := a.Cache.Get(r.RequestURI).Result()
+		headerContentType := r.Header.Get("Content-Type")
+		body, postErr := ioutil.ReadAll(r.Body)
+		utils.CheckAndHandleErr(postErr)
+		key := r.RequestURI + headerContentType + string(body)
+		//fmt.Println(key)
+		content, err := a.Cache.Get(key).Result()
 		if err != nil {
+			newR := httptest.NewRequest(r.Method, r.RequestURI, strings.NewReader(string(body)))
+			newR.Header.Set("Content-Type", "application/json")
 			rr := httptest.NewRecorder()
-			next.ServeHTTP(rr, r)
-			content = rr.Body.String()
-			fmt.Println(content)
+			next.ServeHTTP(rr, newR)
+			resp := rr.Result()
+			body, _ = io.ReadAll(resp.Body)
+			buffer := new(bytes.Buffer)
+			err := json.Compact(buffer, body);
+			content := buffer.String()
 
-			err = a.Cache.Set(r.RequestURI, content, 10*time.Minute).Err()
+			//fmt.Println(content)
+			err = a.Cache.Set(key, content, 10*time.Minute).Err()
 			if err != nil {
 				utils.RepondWithError(w, http.StatusInternalServerError, models.NewApiResponse("OK",err.Error()))
 			}

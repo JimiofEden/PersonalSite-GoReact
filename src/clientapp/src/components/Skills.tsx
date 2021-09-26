@@ -21,7 +21,7 @@ export const Skills = (props: any) => {
 			(results: any) => {
 				if (subscribed) {
 					setLoading(false);
-					setSkills(results.data.skills);
+					setSkills(JSON.parse(results.data).data.skills);
 				}
 			},
 			(err: any) => {

@@ -139,22 +139,27 @@ WITH c (SkillTypeName) as (
 INSERT INTO temp_Skill
 (SkillName, SkillTypeId, Url, Comment, Sequence)
 select 
-'Continuous Integration', SkillTypeId, '', 'Teamcity, Octopus Deploy', 1
+'Caching', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/serverapp/web', 'This site is being cached by Redis!', 1
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Version Control', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact', 'Git (also SVN)', 2
+'Continuous Integration', SkillTypeId, '', 'Teamcity, Octopus Deploy', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Unit Testing', SkillTypeId, '', 'Jest, NUnit', 3
+'Version Control', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact', 'Git (also SVN)', 3
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Project Management', SkillTypeId, '', '', 4
+'Unit Testing', SkillTypeId, '', 'Jest, NUnit', 4
+from dbo.SkillType st, c
+where st.SkillTypeName = c.SkillTypeName
+union
+select 
+'Project Management', SkillTypeId, '', '', 5
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 ;
