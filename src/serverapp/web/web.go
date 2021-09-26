@@ -76,6 +76,7 @@ func (a *App) cacheMiddleware(next http.Handler) http.Handler {
 		}
 		fmt.Println(r.RequestURI)
 
+		// Update with POST request for proper caching
 		content, err := a.Cache.Get(r.RequestURI).Result()
 		if err != nil {
 			rr := httptest.NewRecorder()
