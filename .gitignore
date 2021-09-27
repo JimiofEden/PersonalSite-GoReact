@@ -20,3 +20,4 @@ npm-debug.log
 bin
 src/clientapp/package-lock.json
 configuration.*
+vendor/
