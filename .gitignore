@@ -18,6 +18,5 @@ backend/gin-bin
 backend/public/bundle.js
 npm-debug.log
 bin
-src/clientapp/package-lock.json
 configuration.*
 vendor/

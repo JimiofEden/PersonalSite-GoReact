@@ -64,7 +64,7 @@ func (a *App) Serve(files http.FileSystem, configuration models.Configuration) {
 
 	// Server
 	srv := handlers.CombinedLoggingHandler(os.Stdout, a.Router)
-	//port := fmt.Sprintf(":%s", configuration.ServerPort)
+	port := fmt.Sprintf(":%s", configuration.ServerPort)
 	server := &http.Server {
 		Addr: port,
 		Handler: handlers.CORS(header, methods, cors)(srv),

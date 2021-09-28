@@ -1,0 +1,19 @@
+FROM golang:alpine
+
+ARG app_env
+ENV ENV development
+
+COPY . /src/serverapp
+WORKDIR /src/serverapp
+
+COPY go.mod .
+COPY go.sum .
+
+RUN go mod download
+COPY . .
+
+RUN go get ./
+RUN go build
+EXPOSE 9876
+
+CMD main
