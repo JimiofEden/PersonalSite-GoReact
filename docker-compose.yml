@@ -10,12 +10,13 @@ services:
 
   database:
     build: ./src/database
-    volumes:
-      - personal-site-data:/pgdata
+    restart: always
     ports:
       - "5432"
     environment:
-      - PGDATA=/pgdata
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=202109PersonalSite
 
   serverapp:
     build:
@@ -39,6 +40,3 @@ services:
       - ./src/clientapp/src:/src/clientapp/src 
     ports:
       - "3000:3000"
-
-volumes:
-  personal-site-data:
