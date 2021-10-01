@@ -23,6 +23,6 @@ This is a first attempt to create a Go backend with a React front end, that I ca
 - ~~Organize my Go API/controllers~~
 - ~~Need to store POST requests as well as GET requests into cache~~
 - ~~Then I need to shove all of this onto a container(docker) initialization script where I can just build it at will~~
-- Password needs to be saved in a secure way (secret)
-- Need to dynamically pull the IP Addresses as needed
+- ~~Need to dynamically pull the IP Addresses as needed~~
+- ~~Password needs to be saved in a secure way (secrets seem to be a swarm only thing)~~
 - Host it somewhere and point my hostname at it

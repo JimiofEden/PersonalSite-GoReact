@@ -108,27 +108,22 @@ WITH c (SkillTypeName) as (
 INSERT INTO temp_Skill
 (SkillName, SkillTypeId, Url, Comment, Sequence)
 select 
-'Docker', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/server', 'This site''s host was built with a docker image!', 1
+'AWS', SkillTypeId, 'http://adamhollock.com', 'This site is being hosted by an AWS instance!', 1
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'AWS', SkillTypeId, '', 'This site is being hosted by an AWS instance!', 2
+'Azure', SkillTypeId, '', '', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Azure', SkillTypeId, '', '', 3
+'IIS', SkillTypeId, '', '', 3
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'IIS', SkillTypeId, '', '', 4
-from dbo.SkillType st, c
-where st.SkillTypeName = c.SkillTypeName
-union
-select 
-'Apache', SkillTypeId, '', '', 5
+'Apache', SkillTypeId, '', '', 4
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 ;
@@ -139,29 +134,29 @@ WITH c (SkillTypeName) as (
 INSERT INTO temp_Skill
 (SkillName, SkillTypeId, Url, Comment, Sequence)
 select 
-'Caching', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/serverapp/web', 'This site is being cached by Redis!', 1
+'Docker', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/', 'This site site was built in Docker Containers!', 1
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Continuous Integration', SkillTypeId, '', 'Teamcity, Octopus Deploy', 2
+'Caching', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact/tree/main/src/serverapp/web', 'This site is being cached by Redis!', 2
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Version Control', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact', 'Git (also SVN)', 3
+'Continuous Integration', SkillTypeId, '', 'Teamcity, Octopus Deploy', 3
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Unit Testing', SkillTypeId, '', 'Jest, NUnit', 4
+'Version Control', SkillTypeId, 'https://github.com/JimiofEden/PersonalSite-GoReact', 'Git (also SVN)', 4
 from dbo.SkillType st, c
 where st.SkillTypeName = c.SkillTypeName
 union
 select 
-'Project Management', SkillTypeId, '', '', 5
+'Unit Testing', SkillTypeId, '', 'Jest, NUnit', 5
 from dbo.SkillType st, c
-where st.SkillTypeName = c.SkillTypeName
+where st.SkillTypeName = c.SkillTypeNamey
 ;
 
 

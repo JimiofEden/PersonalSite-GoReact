@@ -14,9 +14,9 @@ services:
     ports:
       - "5432"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
-      - POSTGRES_DB=202109PersonalSite
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS}
+      - POSTGRES_DB=${POSTGRES_DB}
 
   serverapp:
     build:
