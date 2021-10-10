@@ -2,7 +2,9 @@
  
 This is a first attempt to create a Go backend with a React front end, that I can then use for my personal site
 
-2:23:25
+The final result can be found at www.adamhollock.com
+
+
 
 # TODOs
 - ~~Set up new Git repo for personal site~~
